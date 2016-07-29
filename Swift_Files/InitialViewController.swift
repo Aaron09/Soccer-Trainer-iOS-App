@@ -29,6 +29,8 @@ class InitialViewController: UIViewController {
         movesButton.setBackgroundImage(buttonBackgroundImage, forState: .Normal)
         fitnessButton.setBackgroundImage(buttonBackgroundImage, forState: .Normal)
    
+        self.title = "Soccer Trainer"
+        
         addBackground(imageName)
     }
     

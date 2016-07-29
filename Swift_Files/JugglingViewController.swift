@@ -25,6 +25,8 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
     
     private let font = UIFont(name: "System", size: 18.0) ?? UIFont.systemFontOfSize(18.0)
     
+    let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    let imageName = "neymarJugglingImage"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,20 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         addTrickToDoList.titleLabel?.adjustsFontSizeToFitWidth = true
         addTrickKnownList.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        updateColors(TrickType.AllTricks)
+        
+        addBackground(imageName)
+        
+    }
+    
+    func addBackground(imageName: String){
+        imageView.image = UIImage(named: imageName)
+        
+        // you can change the content mode:
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        
+        self.view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
     
     private enum TrickType {
@@ -49,6 +65,19 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         case ToLearnTricks
         case SuggestedTricks
         case AllTricks
+    }
+    
+    private func updateColors(trickTypeForColor: TrickType) {
+        switch trickTypeForColor {
+        case .KnownTricks: knownTricksTextView.textColor = UIColor.whiteColor()
+        case .ToLearnTricks: toLearnTricksTextView.textColor = UIColor.whiteColor()
+        case .SuggestedTricks: suggestedTricksTextView.textColor = UIColor.whiteColor()
+        case .AllTricks:
+            knownTricksTextView.textColor = UIColor.whiteColor()
+            toLearnTricksTextView.textColor = UIColor.whiteColor()
+            suggestedTricksTextView.textColor = UIColor.whiteColor()
+            jugglesLabel.textColor = UIColor.whiteColor()
+        }
     }
     
     private func updateFonts(trickTypeForFont: TrickType) {
@@ -67,9 +96,11 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         if isForKnownList {
             knownTricksTextView.text = juggler.knownTricksBase + juggler.formatListOfTricks(player.knownJugglingTricks)
             updateFonts(TrickType.KnownTricks)
+            updateColors(TrickType.KnownTricks)
         } else {
             toLearnTricksTextView.text = juggler.toLearnTricksBase + juggler.formatListOfTricks(player.toLearnJugglingTricks)
             updateFonts(TrickType.ToLearnTricks)
+            updateColors(TrickType.ToLearnTricks)
         }
     }
     
@@ -88,6 +119,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         let suggestedTricksForPlayer = juggler.setTrickList(juggler.determineTrickLevel(player.jugglingRecord))
         suggestedTricksTextView.text = juggler.suggestedTricksBase + juggler.formatListOfTricks(suggestedTricksForPlayer)
         updateFonts(TrickType.SuggestedTricks)
+        updateColors(TrickType.SuggestedTricks)
     }
     
     @IBAction func setNewJugglingRecord(sender: UIButton) {
@@ -109,23 +141,15 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func modifyKnownList(sender: UIButton) {
-        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Trick?", message: "Enter \"Add\" to add a trick and \"Remove\" to remove a trick", preferredStyle: .Alert)
-        
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = ""
-        })
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            let textField = alert.textFields![0] as UITextField
-            
-            if let addOrRemove = textField.text {
-                self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickType.KnownTricks)
-            }
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        promptForFirstAlert(TrickType.KnownTricks)
     }
     
     @IBAction func modifyToDoList(sender: UIButton) {
-        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Trick?", message: "Enter \"Add\" to add a trick and \"Remove\" to remove a trick", preferredStyle: .Alert)
+        promptForFirstAlert(TrickType.ToLearnTricks)
+    }
+    
+    private func promptForFirstAlert(typeOfTrick: TrickType) {
+        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Trick?", message: "Enter \"Add\" to add a trick or \"Remove\" to remove a trick", preferredStyle: .Alert)
         
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
             textField.text = ""
@@ -134,7 +158,11 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
             let textField = alert.textFields![0] as UITextField
             
             if let addOrRemove = textField.text {
-                self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickType.ToLearnTricks)
+                switch typeOfTrick {
+                case .KnownTricks:  self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickType.KnownTricks)
+                case .ToLearnTricks: self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickType.ToLearnTricks)
+                default: break
+                }
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
