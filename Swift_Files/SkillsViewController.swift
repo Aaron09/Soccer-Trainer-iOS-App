@@ -13,7 +13,7 @@ class SkillsViewController: UIViewController {
     let player = MyPlayer.sharedInstance
     let juggler = Juggler()
     
-    @IBOutlet weak var setMasteredSkillsAmount: UIButton!
+    @IBOutlet weak var setSkillLevelButton: UIButton!
     @IBOutlet weak var knownSkillsTextView: UITextView!
     @IBOutlet weak var toLearnSkillsTextView: UITextView!
     @IBOutlet weak var suggestedSkillsTextView: UITextView!
@@ -31,23 +31,17 @@ class SkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        setMasteredSkillsAmount.titleLabel?.adjustsFontSizeToFitWidth = true
-        modifyKnownList.titleLabel?.adjustsFontSizeToFitWidth = true
-        modifyToDoList.titleLabel?.adjustsFontSizeToFitWidth = true
-        
         let initialSuggestedSkills = juggler.setTrickOrSkillList(player.skillLevel, identifier: .Skill)
         
         knownSkillsTextView.text = juggler.knownSkillsBase + juggler.formatListOfTricksOrSkills(player.knownSkills)
         toLearnSkillsTextView.text = juggler.toLearnSkillsBase + juggler.formatListOfTricksOrSkills(player.toLearnSkills)
         suggestedSkillsTextView.text = juggler.suggestedSkillsBase + juggler.formatListOfTricksOrSkills(initialSuggestedSkills)
-        //jugglesLabel.text = juggler.jugglingBase +  String(player.jugglingRecord)
+        skillLevelLabel.text = juggler.skillLevelBase +  String(player.skillLevel)
         
         updateFonts(TrickOrSkillType.All)
-        
         updateColors(TrickOrSkillType.All)
         
-        setMasteredSkillsAmount.titleLabel?.adjustsFontSizeToFitWidth = true
+        setSkillLevelButton.titleLabel?.adjustsFontSizeToFitWidth = true
         modifyKnownList.titleLabel?.adjustsFontSizeToFitWidth = true
         modifyToDoList.titleLabel?.adjustsFontSizeToFitWidth = true
         skillLevelLabel.adjustsFontSizeToFitWidth = true
