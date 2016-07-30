@@ -24,9 +24,12 @@ class MyPlayer {
     }
     
     var currentPosition = ""
-    var jugglingRecord = 95
+    var jugglingRecord = 100
     var knownJugglingTricks: [String] = ["Around the World", "Neck Stall", "Foot Stall"]
     var toLearnJugglingTricks: [String] = ["Inside Around the World", "Double Around the World"]
+    var knownSkills: [String] = []
+    var toLearnSkills: [String] = []
+    var skillLevel = Juggler.TrickOrSkillLevels.Beginner
     
     let goalKeeperDescription = "Defense: The final line of defense, goalkeepers are essential to ensuring a team's success and preventing the opposition from scoring. Quick reactions, reach, and acrobatics are key to a skilled goalkeeper. Though they don't run up and down the field, goalkeeping is both physically and mentally exhaustive. Goalkeepers often receive criticism for events outside their influence and usually become the unsung heroes of the game."
     
