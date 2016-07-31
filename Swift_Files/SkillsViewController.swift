@@ -165,6 +165,7 @@ class SkillsViewController: UIViewController {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
     private func promptForSecondAlert(addOrRemoveTrick: String, typeOfSkill: TrickOrSkillType) {
@@ -197,6 +198,7 @@ class SkillsViewController: UIViewController {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
     private func removeAlert(typeOfSkill: TrickOrSkillType) {
@@ -228,6 +230,7 @@ class SkillsViewController: UIViewController {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
 

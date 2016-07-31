@@ -167,6 +167,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
     private func promptForSecondAlert(addOrRemoveTrick: String, typeOfTrick: TrickOrSkillType) {
@@ -199,6 +200,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
     private func removeAlert(typeOfTrickOrSkill: TrickOrSkillType) {
@@ -230,6 +232,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
 
     
