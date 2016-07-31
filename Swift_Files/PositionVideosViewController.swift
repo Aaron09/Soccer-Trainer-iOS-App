@@ -47,17 +47,14 @@ class PositionVideosViewController: UIViewController {
         let position = player.currentPosition
         selectVideos(position)
         setVideos()
-        addBackground(imageName)
+        self.view.addBackground(imageName)
     }
     
-    func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-        
-        // you can change the content mode:
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
+    override func viewDidAppear(animated: Bool) {
+        let position = player.currentPosition
+        selectVideos(position)
+        setVideos()
+        self.view.addBackground(imageName)
     }
     
     func setVideos() {
@@ -66,8 +63,8 @@ class PositionVideosViewController: UIViewController {
     }
     
     private func selectVideos(playerPosition: String) {
-        let width = 600
-        let height = 600
+        let width = self.view.frame.width * 3
+        let height = self.view.bounds.height * 1.5
         let frameBorder = 0
         
         

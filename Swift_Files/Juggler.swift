@@ -124,10 +124,14 @@ class Juggler {
         var hasOnlyCharacters = true
         let characters = NSCharacterSet.letterCharacterSet()
         
-        for index in trickOrSKillToBeTested.unicodeScalars {
-            if !characters.longCharacterIsMember(index.value) && index != " " && index != "'" && index != ":"{
-                hasOnlyCharacters = false
+        if trickOrSKillToBeTested != "" {
+            for index in trickOrSKillToBeTested.unicodeScalars {
+                if !characters.longCharacterIsMember(index.value) && index != " " && index != "'" && index != ":"{
+                    hasOnlyCharacters = false
+                }
             }
+        } else {
+            hasOnlyCharacters = false
         }
         
         return hasOnlyCharacters

@@ -11,7 +11,7 @@ import UIKit
 class SkillsViewController: UIViewController {
 
     let player = MyPlayer.sharedInstance
-    let juggler = Juggler()
+    private let juggler = Juggler()
     
     @IBOutlet weak var setSkillLevelButton: UIButton!
     @IBOutlet weak var knownSkillsTextView: UITextView!
@@ -24,8 +24,8 @@ class SkillsViewController: UIViewController {
     
     private let font = UIFont(name: "System", size: 18.0) ?? UIFont.systemFontOfSize(18.0)
     
-    let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
-    let imageName = "ibrahimovicBackgroundImage"
+    private let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    private let imageName = "ibrahimovicBackgroundImage"
     
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class SkillsViewController: UIViewController {
         modifyToDoList.titleLabel?.adjustsFontSizeToFitWidth = true
         skillLevelLabel.adjustsFontSizeToFitWidth = true
         
-        addBackground(imageName)
+        self.view.addBackground(imageName)
         
     }
     
@@ -55,16 +55,6 @@ class SkillsViewController: UIViewController {
         case ToLearn
         case Suggested
         case All
-    }
-    
-    func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-        
-        // you can change the content mode:
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
     }
     
     private func updateColors(skillTypeForColor: TrickOrSkillType) {
@@ -155,20 +145,23 @@ class SkillsViewController: UIViewController {
     }
     
     private func promptForFirstAlert(typeOfSkill: TrickOrSkillType) {
-        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Skill?", message: "Enter \"Add\" to add a skill or \"Remove\" to remove a skill", preferredStyle: .Alert)
-        
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = ""
-        })
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            let textField = alert.textFields![0] as UITextField
+        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Skill?", message: "Press \"Add\" to add a skill or \"Remove\" to remove a skill", preferredStyle: .Alert)
+
+        alert.addAction(UIAlertAction(title: "Add", style: .Default, handler: { (action) -> Void in
             
-            if let addOrRemove = textField.text {
-                switch typeOfSkill {
-                case .Known:  self.promptForSecondAlert(addOrRemove, typeOfSkill: TrickOrSkillType.Known)
-                case .ToLearn: self.promptForSecondAlert(addOrRemove, typeOfSkill: TrickOrSkillType.ToLearn)
-                default: break
-                }
+            switch typeOfSkill {
+            case .Known:  self.promptForSecondAlert("add", typeOfSkill: TrickOrSkillType.Known)
+            case .ToLearn: self.promptForSecondAlert("add", typeOfSkill: TrickOrSkillType.ToLearn)
+            default: break
+            }
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Remove", style: .Default, handler: { (action) -> Void in
+            
+            switch typeOfSkill {
+            case .Known:  self.promptForSecondAlert("remove", typeOfSkill: TrickOrSkillType.Known)
+            case .ToLearn: self.promptForSecondAlert("remove", typeOfSkill: TrickOrSkillType.ToLearn)
+            default: break
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
@@ -183,7 +176,7 @@ class SkillsViewController: UIViewController {
     }
     
     private func addAlert(typeOfSkill: TrickOrSkillType) {
-        let alert = UIAlertController(title: "Add the New Trick to Your List", message: "Enter a trick via text (e.g., \"Around the World\")", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Add a New Skill to Your List", message: "Enter the skill via text (e.g., \"Elastico\")", preferredStyle: .Alert)
         
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
             textField.text = ""
@@ -207,7 +200,7 @@ class SkillsViewController: UIViewController {
     }
     
     private func removeAlert(typeOfSkill: TrickOrSkillType) {
-        let alert = UIAlertController(title: "Remove a Trick From Your List", message: "Enter the trick to be removed via text (e.g., \"Around the World\")", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Remove a Skill From Your List", message: "Enter the skill to be removed via text (e.g., \"Elastico\")", preferredStyle: .Alert)
         
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
             textField.text = ""

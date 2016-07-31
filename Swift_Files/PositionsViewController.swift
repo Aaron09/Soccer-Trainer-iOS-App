@@ -34,9 +34,9 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     private static let wingerValue = 7
     private static let strikerValue = 8
     
-    let positionBase = "My Current Position: "
+    private let positionBase = "My Current Position: "
     
-    let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    private let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     private let positions =
         ["Goalkeeper", "Full Back", "Center Back", "Defensive Midfielder", "Center Midfielder", "Offensive Midfielder", "Outside Midfielder", "Winger", "Striker"
@@ -68,12 +68,12 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    //setting up position picker
         self.positionPicker.dataSource = self;
         self.positionPicker.delegate = self;
         setPositionAndDescription()
         self.positionPicker.selectRow(positionRows[player.currentPosition]!, inComponent: 0, animated: false)
-        self.addBackground(setBackgroundBasedOnPosition())
+        
+        self.view.addBackground(setBackgroundBasedOnPosition())
     }
     
     private func setBackgroundBasedOnPosition() -> String {
@@ -107,15 +107,6 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         case Goalkeeper
     }
     
-    func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-        
-        // you can change the content mode:
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-    }
     private let positionTypes: Dictionary<String, Positions> = [
         "Goalkeeper" : Positions.Goalkeeper,
         "Full Back" : Positions.DefensivePosition,
@@ -137,7 +128,7 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         positionDescriptionTV.text = currentDescription
 
         imageView.removeFromSuperview()
-        self.addBackground(setBackgroundBasedOnPosition())
+        self.view.addBackground(setBackgroundBasedOnPosition())
         
     }
     

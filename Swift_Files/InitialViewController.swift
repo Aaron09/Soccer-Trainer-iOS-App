@@ -10,8 +10,6 @@ import UIKit
 
 class InitialViewController: UIViewController {
     
-//    let player = MyPlayer.sharedInstance
-    
     @IBOutlet weak var positionsButton: UIButton!
     @IBOutlet weak var jugglingButton: UIButton!
     @IBOutlet weak var movesButton: UIButton!
@@ -31,22 +29,8 @@ class InitialViewController: UIViewController {
    
         self.title = "Soccer Trainer"
         
-        addBackground(imageName)
+        self.view.addBackground(imageName)
     }
-    
-    private func addBackground(imgName: String) {
-        imageView.image = UIImage(named: imageName)
-        
-        // you can change the content mode:
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-        
-    }
-    
-  
-
 
 }
 

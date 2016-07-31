@@ -10,8 +10,9 @@ import UIKit
 
 class SkillsVideosViewController: UIViewController {
 
-    private let juggler = Juggler()
     let player = MyPlayer.sharedInstance
+    private let juggler = Juggler()
+
     
     private var linkOne = ""
     private var linkTwo = ""
@@ -29,20 +30,11 @@ class SkillsVideosViewController: UIViewController {
         setLinksAccordingToSkillLevel(player.skillLevel)
         setVideos()
         
-        addBackground(imageName)
+        self.view.addBackground(imageName)
     }
     override func viewDidAppear(animated: Bool) {
         setLinksAccordingToSkillLevel(player.skillLevel)
         setVideos()
-    }
-    
-    private func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
     }
     
     private func setVideos() {

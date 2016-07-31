@@ -12,7 +12,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
 
     let player = MyPlayer.sharedInstance
     
-    let juggler = Juggler()
+    private let juggler = Juggler()
     
     @IBOutlet weak var setNewJugglingRecord: UIButton!
     @IBOutlet weak var addTrickToDoList: UIButton!
@@ -25,12 +25,19 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
     
     private let font = UIFont(name: "System", size: 18.0) ?? UIFont.systemFontOfSize(18.0)
     
-    let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
-    let imageName = "neymarJugglingImage"
+    private let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    private let imageName = "neymarJugglingImage"
+    
+    var popUpAddOrRemoveView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        popUpAddOrRemoveView = UIView(frame: CGRectMake(self.view.bounds.width * (1/3), self.view.bounds.height * (1/3), self.view.bounds.width * (1/3), self.view.bounds.height * (1/3)))
+        
+        popUpAddOrRemoveView.hidden = true
+        
         let initialSuggestedTricks = juggler.setTrickOrSkillList(juggler.determineTrickLevel(player.jugglingRecord), identifier: .Trick)
         
         knownTricksTextView.text = juggler.knownTricksBase + juggler.formatListOfTricksOrSkills(player.knownJugglingTricks)
@@ -46,7 +53,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         
         updateColors(TrickOrSkillType.All)
         
-        addBackground(imageName)
+        self.view.addBackground(imageName)
         
     }
     
@@ -56,17 +63,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         case Suggested
         case All
     }
-    
-    func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-        
-        // you can change the content mode:
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-    }
-    
+
     private func updateColors(trickTypeForColor: TrickOrSkillType) {
         switch trickTypeForColor {
         case .Known: knownTricksTextView.textColor = UIColor.whiteColor()
@@ -149,20 +146,24 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func promptForFirstAlert(typeOfTrick: TrickOrSkillType) {
-        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Trick?", message: "Enter \"Add\" to add a trick or \"Remove\" to remove a trick", preferredStyle: .Alert)
+    
+        let alert = UIAlertController(title: "Do You Want To Add Or Remove a Trick?", message: "Press \"Add\" to add a trick or \"Remove\" to remove a trick", preferredStyle: .Alert)
         
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = ""
-        })
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            let textField = alert.textFields![0] as UITextField
+        alert.addAction(UIAlertAction(title: "Add", style: .Default, handler: { (action) -> Void in
             
-            if let addOrRemove = textField.text {
-                switch typeOfTrick {
-                case .Known:  self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickOrSkillType.Known)
-                case .ToLearn: self.promptForSecondAlert(addOrRemove, typeOfTrick: TrickOrSkillType.ToLearn)
-                default: break
-                }
+            switch typeOfTrick {
+            case .Known:  self.promptForSecondAlert("add", typeOfTrick: TrickOrSkillType.Known)
+            case .ToLearn: self.promptForSecondAlert("add", typeOfTrick: TrickOrSkillType.ToLearn)
+            default: break
+            }
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Remove", style: .Default, handler: { (action) -> Void in
+            
+            switch typeOfTrick {
+            case .Known:  self.promptForSecondAlert("remove", typeOfTrick: TrickOrSkillType.Known)
+            case .ToLearn: self.promptForSecondAlert("remove", typeOfTrick: TrickOrSkillType.ToLearn)
+            default: break
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)

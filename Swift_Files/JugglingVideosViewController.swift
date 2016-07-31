@@ -10,18 +10,18 @@ import UIKit
 
 class JugglingVideosViewController: UIViewController {
 
-    let juggler = Juggler()
     let player = MyPlayer.sharedInstance
+    private let juggler = Juggler()
     
-    var linkOne = ""
-    var linkTwo = ""
+    private var linkOne = ""
+    private var linkTwo = ""
 
     @IBOutlet weak var webViewOne: UIWebView!
     @IBOutlet weak var webViewTwo: UIWebView!
     
-    let imageName = "messiPositionVideosImage"
+    private let imageName = "messiPositionVideosImage"
     
-    let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    private let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,31 +29,21 @@ class JugglingVideosViewController: UIViewController {
         setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())
         setVideos()
         
-        addBackground(imageName)
+        self.view.addBackground(imageName)
     }
     override func viewDidAppear(animated: Bool) {
         setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())
         setVideos()
     }
     
-    func addBackground(imageName: String){
-        imageView.image = UIImage(named: imageName)
-        
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        
-        self.view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-    }
+    private let footStallVideoLink = "https://www.youtube.com/embed/C6xPIZdCML8"
+    private let maloudaFlickVideoLink = "https://www.youtube.com/embed/qV7cFs9LCVU"
     
+    private let aroundTheWorldVideoLink = "https://www.youtube.com/embed/lHy5-QofzP0"
+    private let neckStallVideoLink = "https://www.youtube.com/embed/QxP-2Lux9FU"
     
-    let footStallVideoLink = "https://www.youtube.com/embed/C6xPIZdCML8"
-    let maloudaFlickVideoLink = "https://www.youtube.com/embed/qV7cFs9LCVU"
-    
-    let aroundTheWorldVideoLink = "https://www.youtube.com/embed/lHy5-QofzP0"
-    let neckStallVideoLink = "https://www.youtube.com/embed/QxP-2Lux9FU"
-    
-    let hopTheWorldVideoLink = "https://www.youtube.com/embed/mTFt4kCrKeA"
-    let headStallVideoLink = "https://www.youtube.com/embed/rDZqs_CLAR8"
+    private let hopTheWorldVideoLink = "https://www.youtube.com/embed/mTFt4kCrKeA"
+    private let headStallVideoLink = "https://www.youtube.com/embed/rDZqs_CLAR8"
     
     private func setVideos() {
         self.webViewOne.loadHTMLString(linkOne, baseURL: nil)
