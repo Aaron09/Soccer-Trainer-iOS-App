@@ -15,8 +15,6 @@ class JugglingVideosViewController: UIViewController {
     
     var linkOne = ""
     var linkTwo = ""
-    var linkThree = ""
-    var linkFour = ""
 
     @IBOutlet weak var webViewOne: UIWebView!
     @IBOutlet weak var webViewTwo: UIWebView!
@@ -25,31 +23,22 @@ class JugglingVideosViewController: UIViewController {
     
     let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
-    enum Tricks {
-        case Beginner
-        case Intermediate
-        case Advanced
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setLinksAccordingToSKillLevel(determineJugglingSkillForVideoSelection())
+        setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())
         setVideos()
         
         addBackground(imageName)
-
-        // Do any additional setup after loading the view.
     }
     override func viewDidAppear(animated: Bool) {
-        setLinksAccordingToSKillLevel(determineJugglingSkillForVideoSelection())
+        setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())
         setVideos()
     }
     
     func addBackground(imageName: String){
         imageView.image = UIImage(named: imageName)
         
-        // you can change the content mode:
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         
         self.view.addSubview(imageView)
@@ -63,16 +52,16 @@ class JugglingVideosViewController: UIViewController {
     let aroundTheWorldVideoLink = "https://www.youtube.com/embed/lHy5-QofzP0"
     let neckStallVideoLink = "https://www.youtube.com/embed/QxP-2Lux9FU"
     
-    let hopTheWorldLink = "https://www.youtube.com/embed/mTFt4kCrKeA"
+    let hopTheWorldVideoLink = "https://www.youtube.com/embed/mTFt4kCrKeA"
     let headStallVideoLink = "https://www.youtube.com/embed/rDZqs_CLAR8"
     
-    func setVideos() {
+    private func setVideos() {
         self.webViewOne.loadHTMLString(linkOne, baseURL: nil)
         self.webViewTwo.loadHTMLString(linkTwo, baseURL: nil)
 
     }
-    
-    private func setLinksAccordingToSKillLevel(trickLevel: Tricks) {
+
+    private func setLinksAccordingToTrickLevel(trickLevel: Juggler.TrickOrSkillLevels) {
         let width = self.view.frame.width * 3
         let height = self.view.bounds.height * 1.5
         let frameBorder = 0
@@ -85,19 +74,19 @@ class JugglingVideosViewController: UIViewController {
             linkOne = "<iframe width=\(width) height=\(height) src=\(aroundTheWorldVideoLink) frameborder=\(frameBorder) body { margin: 0; padding: 0; } allowfullscreen> </iframe>"
             linkTwo = "<iframe width=\(width) height=\(height) src=\(neckStallVideoLink) frameborder=\(frameBorder) body { margin: 0; padding: 0; } allowfullscreen> </iframe>"
         case .Advanced:
-            linkOne = "<iframe width=\(width) height=\(height) src=\(hopTheWorldLink) frameborder=\(frameBorder) body { margin: 0; padding: 0; } allowfullscreen> </iframe>"
+            linkOne = "<iframe width=\(width) height=\(height) src=\(hopTheWorldVideoLink) frameborder=\(frameBorder) body { margin: 0; padding: 0; } allowfullscreen> </iframe>"
             linkTwo = "<iframe width=\(width) height=\(height) src=\(headStallVideoLink) frameborder=\(frameBorder) body { margin: 0; padding: 0; } allowfullscreen> </iframe>"
         }
         
     }
     
-    private func determineJugglingSkillForVideoSelection() -> Tricks {
+    private func determineJugglingSkillForVideoSelection() -> Juggler.TrickOrSkillLevels {
         if player.jugglingRecord <= juggler.beginnerJugglingTotal {
-            return Tricks.Beginner
+            return Juggler.TrickOrSkillLevels.Beginner
         } else if player.jugglingRecord <= juggler.intermediateJugglingTotal {
-            return Tricks.Intermediate
+            return Juggler.TrickOrSkillLevels.Intermediate
         } else {
-            return Tricks.Advanced
+            return Juggler.TrickOrSkillLevels.Advanced
         }
     }
 

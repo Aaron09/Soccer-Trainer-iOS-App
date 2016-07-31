@@ -24,9 +24,9 @@ class MyPlayer {
     }
     
     var currentPosition = ""
-    var jugglingRecord = 100
-    var knownJugglingTricks: [String] = ["Around the World", "Neck Stall", "Foot Stall"]
-    var toLearnJugglingTricks: [String] = ["Inside Around the World", "Double Around the World"]
+    var jugglingRecord = 0
+    var knownJugglingTricks: [String] = []
+    var toLearnJugglingTricks: [String] = []
     var knownSkills: [String] = []
     var toLearnSkills: [String] = []
     var skillLevel = Juggler.TrickOrSkillLevels.Beginner

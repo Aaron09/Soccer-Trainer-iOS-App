@@ -74,13 +74,13 @@ class Juggler {
         return isParsable
     }
     
-    private let beginnerTrickList: [String] = ["Malouda Flick", "Roll Over Flick Up", "Foot Stall"]
-    private let intermediateTrickList: [String] = ["Knee Slam Flick Up", "Neck Stall", "Around the World", "Inside Around the World"]
-    private let advancedTrickList: [String] = ["Head Stall", "Double Around the World", "Hop the World", "Crossover"]
+    private let beginnerTrickList: [String] = ["Malouda Flick", "Roll Over Flick Up", "Foot Stall", "Pancake"]
+    private let intermediateTrickList: [String] = ["Knee Slam Flick Up", "Neck Stall", "Around the World", "Inside Around the World", "Toe Bounce"]
+    private let advancedTrickList: [String] = ["Head Stall", "Double Around the World", "Hop the World", "Crossover", "Akka", "Bicycle Juggle"]
     
-    private let beginnerSkillList: [String] = ["Ball Roll", "Step Over", "Cruyff Turn"]
-    private let intermediateSkillList: [String] = ["Maradona", "Elastico", "Rainbow"]
-    private let advancedSkillList: [String] = ["Hocus Pocus", "Inverse Elastico", "Sombrero Flick"]
+    private let beginnerSkillList: [String] = ["Ball Roll", "Step Over", "Cruyff Turn","Body Feint", "The-L", "The-V", "Pull Back", "Fake Shot", "Cut"]
+    private let intermediateSkillList: [String] = ["Maradona", "Rainbow", "Ronaldo Chop", "The Okocha", "The Rivelino", "Heel to Heel", "Nutmeg", "Scoop Turn"]
+    private let advancedSkillList: [String] = ["Hocus Pocus", "Inverse Elastico", "Sombrero Flick", "Elastico", "Rabona", "Fake Rabona", "Running Scoop Turn"]
 
     
     func formatListOfTricksOrSkills(trickOrSkillList: [String]) -> String {

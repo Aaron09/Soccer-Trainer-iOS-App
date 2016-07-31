@@ -228,9 +228,47 @@
                     <view key="view" contentMode="scaleToFill" id="Ohq-Sa-5sN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Helpful Videos to Learn Skills" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuE-id-rpj">
+                                <rect key="frame" x="20" y="72" width="560" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="DEd-Db-KSA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zUk-3o-GQk">
+                                <rect key="frame" x="60" y="140" width="480" height="180"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="bGa-lu-Q6v"/>
+                                </constraints>
+                            </webView>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PrI-Jf-owN">
+                                <rect key="frame" x="60" y="363" width="480" height="180"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zUk-3o-GQk" firstAttribute="trailing" secondItem="PrI-Jf-owN" secondAttribute="trailing" id="3Cv-2d-BXU"/>
+                            <constraint firstItem="zUk-3o-GQk" firstAttribute="leading" secondItem="Ohq-Sa-5sN" secondAttribute="leadingMargin" constant="40" id="3ZS-FG-OG5"/>
+                            <constraint firstItem="RuE-id-rpj" firstAttribute="leading" secondItem="Ohq-Sa-5sN" secondAttribute="leadingMargin" id="8xn-wF-HSI"/>
+                            <constraint firstItem="zUk-3o-GQk" firstAttribute="top" secondItem="RuE-id-rpj" secondAttribute="bottom" constant="32" id="FTc-4K-qen"/>
+                            <constraint firstItem="RuE-id-rpj" firstAttribute="top" secondItem="a9A-r2-o9z" secondAttribute="bottom" constant="8" symbolic="YES" id="WvS-qW-5ya"/>
+                            <constraint firstItem="RuE-id-rpj" firstAttribute="trailing" secondItem="Ohq-Sa-5sN" secondAttribute="trailingMargin" id="at9-qM-CAN"/>
+                            <constraint firstItem="PrI-Jf-owN" firstAttribute="top" secondItem="zUk-3o-GQk" secondAttribute="bottom" constant="43" id="dZq-Fx-69X"/>
+                            <constraint firstItem="zUk-3o-GQk" firstAttribute="leading" secondItem="PrI-Jf-owN" secondAttribute="leading" id="f2e-SO-fJm"/>
+                            <constraint firstItem="RuE-id-rpj" firstAttribute="centerX" secondItem="zUk-3o-GQk" secondAttribute="centerX" id="mgE-rr-cq4"/>
+                            <constraint firstItem="dke-8A-tGl" firstAttribute="top" secondItem="PrI-Jf-owN" secondAttribute="bottom" constant="8" symbolic="YES" id="vg0-8p-816"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Skills Videos" id="AKq-sG-q6R"/>
+                    <connections>
+                        <outlet property="webViewOne" destination="zUk-3o-GQk" id="YLE-JE-djy"/>
+                        <outlet property="webViewTwo" destination="PrI-Jf-owN" id="r8u-zB-McW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ihg-qz-eZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
