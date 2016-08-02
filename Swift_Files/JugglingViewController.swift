@@ -34,16 +34,29 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        popUpAddOrRemoveView = UIView(frame: CGRectMake(self.view.bounds.width * (1/3), self.view.bounds.height * (1/3), self.view.bounds.width * (1/3), self.view.bounds.height * (1/3)))
+        if let jugglingRecord = player.defaults.valueForKey(player.jugglingRecordKey) as? Int{
+            player.jugglingRecord = jugglingRecord
+            jugglesLabel.text = juggler.jugglingBase + String(player.jugglingRecord)
+        } else {
+            jugglesLabel.text = juggler.jugglingBase
+        }
         
-        popUpAddOrRemoveView.hidden = true
+        if let knownTricksList = player.defaults.arrayForKey(player.knownJugglingTricksKey) as? [String]{
+            player.knownJugglingTricks = knownTricksList
+            knownTricksTextView.text = juggler.knownTricksBase + juggler.formatListOfTricksOrSkills(player.knownJugglingTricks)
+        } else {
+            knownTricksTextView.text = juggler.knownTricksBase
+        }
+        
+        if let toLearnTricksList = player.defaults.arrayForKey(player.toLearnJugglingTricksKey) as? [String]{
+            player.toLearnJugglingTricks = toLearnTricksList
+            toLearnTricksTextView.text = juggler.toLearnTricksBase + juggler.formatListOfTricksOrSkills(player.toLearnJugglingTricks)
+        } else {
+            toLearnTricksTextView.text = juggler.toLearnTricksBase
+        }
         
         let initialSuggestedTricks = juggler.setTrickOrSkillList(juggler.determineTrickLevel(player.jugglingRecord), identifier: .Trick)
-        
-        knownTricksTextView.text = juggler.knownTricksBase + juggler.formatListOfTricksOrSkills(player.knownJugglingTricks)
-        toLearnTricksTextView.text = juggler.toLearnTricksBase + juggler.formatListOfTricksOrSkills(player.toLearnJugglingTricks)
         suggestedTricksTextView.text = juggler.suggestedTricksBase + juggler.formatListOfTricksOrSkills(initialSuggestedTricks)
-        jugglesLabel.text = juggler.jugglingBase +  String(player.jugglingRecord)
         
         updateFonts(TrickOrSkillType.All)
         
@@ -53,7 +66,7 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
         
         updateColors(TrickOrSkillType.All)
         
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
         
     }
     
@@ -94,10 +107,16 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
             knownTricksTextView.text = juggler.knownTricksBase + juggler.formatListOfTricksOrSkills(player.knownJugglingTricks)
             updateFonts(TrickOrSkillType.Known)
             updateColors(TrickOrSkillType.Known)
+            
+            player.defaults.setObject(player.knownJugglingTricks, forKey: player.knownJugglingTricksKey)
+            player.defaults.synchronize()
         } else {
             toLearnTricksTextView.text = juggler.toLearnTricksBase + juggler.formatListOfTricksOrSkills(player.toLearnJugglingTricks)
             updateFonts(TrickOrSkillType.ToLearn)
             updateColors(TrickOrSkillType.ToLearn)
+            
+            player.defaults.setObject(player.toLearnJugglingTricks, forKey: player.toLearnJugglingTricksKey)
+            player.defaults.synchronize()
         }
     }
     
@@ -108,6 +127,9 @@ class JugglingViewController: UIViewController, UITextFieldDelegate {
                 jugglesLabel.text = juggler.jugglingBase + String(player.jugglingRecord)
                 
                 updateSuggestedTrickList()
+                
+                player.defaults.setValue(player.jugglingRecord, forKey: player.jugglingRecordKey)
+                player.defaults.synchronize()
             }
         }
     }

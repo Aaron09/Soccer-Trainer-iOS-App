@@ -10,6 +10,8 @@ import UIKit
 
 class InitialViewController: UIViewController {
     
+    let player = MyPlayer.sharedInstance
+    
     @IBOutlet weak var positionsButton: UIButton!
     @IBOutlet weak var jugglingButton: UIButton!
     @IBOutlet weak var movesButton: UIButton!
@@ -29,7 +31,7 @@ class InitialViewController: UIViewController {
    
         self.title = "Soccer Trainer"
         
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
     }
 
 }

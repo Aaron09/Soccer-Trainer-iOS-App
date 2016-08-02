@@ -29,7 +29,7 @@ class JugglingVideosViewController: UIViewController {
         setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())
         setVideos()
         
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
     }
     override func viewDidAppear(animated: Bool) {
         setLinksAccordingToTrickLevel(determineJugglingSkillForVideoSelection())

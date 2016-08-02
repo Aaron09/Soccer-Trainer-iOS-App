@@ -9,8 +9,7 @@
 import UIKit
 
 extension UIView {
-    func addBackground(imageName: String){
-        let imageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    func addBackground(imageName: String, imageView: UIImageView){
         
         imageView.image = UIImage(named: imageName)
         

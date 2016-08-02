@@ -31,6 +31,20 @@ class MyPlayer {
     var toLearnSkills: [String] = []
     var skillLevel = Juggler.TrickOrSkillLevels.Beginner
     
+    let currentPositionKey = "currentPosition"
+    let jugglingRecordKey = "jugglingRecord"
+    let knownJugglingTricksKey = "knownJugglingTricks"
+    let toLearnJugglingTricksKey = "toLearnJugglingTricks"
+    let knownSkillsKey = "knownSkills"
+    let toLearnSkillsKey = "toLearnSkills"
+    let skillLevelKey = "skillLevel"
+    
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    
+    
+    
     let goalKeeperDescription = "Defense: The final line of defense, goalkeepers are essential to ensuring a team's success and preventing the opposition from scoring. Quick reactions, reach, and acrobatics are key to a skilled goalkeeper. Though they don't run up and down the field, goalkeeping is both physically and mentally exhaustive. Goalkeepers often receive criticism for events outside their influence and usually become the unsung heroes of the game."
     
     let fullBackDescription = "Defense: Strong and fast, the full-back covers the outside edges of the field, typically marking opposing wingers, and, in certain cases, strikers. The full-back needs to be quick to keep up with opposing wingers, whereas heading-ability isn't as crucial."

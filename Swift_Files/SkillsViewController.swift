@@ -31,12 +31,30 @@ class SkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let initialSuggestedSkills = juggler.setTrickOrSkillList(player.skillLevel, identifier: .Skill)
+        if let skillLevel = player.defaults.stringForKey(player.skillLevelKey) {
+            let playerSkillLevel = checkSkillLevel(skillLevel)
+            player.skillLevel = playerSkillLevel
+            skillLevelLabel.text = juggler.skillLevelBase + String(player.skillLevel)
+        } else {
+            skillLevelLabel.text = juggler.skillLevelBase + String(Juggler.TrickOrSkillLevels.Beginner)
+        }
         
-        knownSkillsTextView.text = juggler.knownSkillsBase + juggler.formatListOfTricksOrSkills(player.knownSkills)
-        toLearnSkillsTextView.text = juggler.toLearnSkillsBase + juggler.formatListOfTricksOrSkills(player.toLearnSkills)
+        if let knownSkillsList = player.defaults.arrayForKey(player.knownSkillsKey) as? [String]{
+            player.knownSkills = knownSkillsList
+            knownSkillsTextView.text = juggler.knownSkillsBase + juggler.formatListOfTricksOrSkills(player.knownSkills)
+        } else {
+            knownSkillsTextView.text = juggler.knownSkillsBase
+        }
+        
+        if let toLearnSkillsList = player.defaults.arrayForKey(player.toLearnSkillsKey) as? [String]{
+            player.toLearnSkills = toLearnSkillsList
+            toLearnSkillsTextView.text = juggler.toLearnSkillsBase + juggler.formatListOfTricksOrSkills(player.toLearnSkills)
+        } else {
+            toLearnSkillsTextView.text = juggler.toLearnSkillsBase
+        }
+        
+        let initialSuggestedSkills = juggler.setTrickOrSkillList(player.skillLevel, identifier: .Skill)
         suggestedSkillsTextView.text = juggler.suggestedSkillsBase + juggler.formatListOfTricksOrSkills(initialSuggestedSkills)
-        skillLevelLabel.text = juggler.skillLevelBase +  String(player.skillLevel)
         
         updateFonts(TrickOrSkillType.All)
         updateColors(TrickOrSkillType.All)
@@ -46,7 +64,7 @@ class SkillsViewController: UIViewController {
         modifyToDoList.titleLabel?.adjustsFontSizeToFitWidth = true
         skillLevelLabel.adjustsFontSizeToFitWidth = true
         
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
         
     }
     
@@ -91,21 +109,38 @@ class SkillsViewController: UIViewController {
         updateColors(TrickOrSkillType.Suggested)
     }
     
+    private func checkSkillLevel(newSkillLevel: String) -> Juggler.TrickOrSkillLevels {
+        let newLevel = newSkillLevel.lowercaseString
+        switch newLevel {
+        case "beginner": return Juggler.TrickOrSkillLevels.Beginner
+        case "intermediate": return Juggler.TrickOrSkillLevels.Intermediate
+        case "advanced": return Juggler.TrickOrSkillLevels.Advanced
+        default: return Juggler.TrickOrSkillLevels.Beginner
+        }
+    }
+    
     private func updateSkillLevel(newSkillLevel: String){
         let newLevel = newSkillLevel.lowercaseString
-        if newLevel == String(Juggler.TrickOrSkillLevels.Beginner).lowercaseString {
-            skillLevelLabel.text = self.juggler.skillLevelBase + "Beginner"
+        
+        switch newLevel {
+        case "beginner":
             player.skillLevel = Juggler.TrickOrSkillLevels.Beginner
+            skillLevelLabel.text = juggler.skillLevelBase + String(player.skillLevel)
             updateSuggestedSkillList()
-        } else if newLevel == String(Juggler.TrickOrSkillLevels.Intermediate).lowercaseString {
-            skillLevelLabel.text = self.juggler.skillLevelBase + "Intermediate"
+        case "intermediate":
             player.skillLevel = Juggler.TrickOrSkillLevels.Intermediate
+            skillLevelLabel.text = juggler.skillLevelBase + String(player.skillLevel)
             updateSuggestedSkillList()
-        } else if newLevel == String(Juggler.TrickOrSkillLevels.Advanced).lowercaseString {
-            skillLevelLabel.text = self.juggler.skillLevelBase + "Advanced"
+        case "advanced":
             player.skillLevel = Juggler.TrickOrSkillLevels.Advanced
+            skillLevelLabel.text = juggler.skillLevelBase + String(player.skillLevel)
             updateSuggestedSkillList()
+        default: break
+            
         }
+        
+        player.defaults.setValue(String(player.skillLevel), forKey: player.skillLevelKey)
+        player.defaults.synchronize()
     }
     
     private func updateSkillsList(isForKnownList: Bool){
@@ -113,27 +148,34 @@ class SkillsViewController: UIViewController {
             knownSkillsTextView.text = juggler.knownSkillsBase + juggler.formatListOfTricksOrSkills(player.knownSkills)
             updateFonts(TrickOrSkillType.Known)
             updateColors(TrickOrSkillType.Known)
+            
+            player.defaults.setObject(player.knownSkills, forKey: player.knownSkillsKey)
+            player.defaults.synchronize()
         } else {
             toLearnSkillsTextView.text = juggler.toLearnSkillsBase + juggler.formatListOfTricksOrSkills(player.toLearnSkills)
             updateFonts(TrickOrSkillType.ToLearn)
             updateColors(TrickOrSkillType.ToLearn)
+            
+            player.defaults.setObject(player.toLearnSkills, forKey: player.toLearnSkillsKey)
+            player.defaults.synchronize()
         }
     }
     
     @IBAction func setNewSkillLevel(sender: UIButton) {
-        let alert = UIAlertController(title: "Set Your Skill Level", message: "Enter either \"Beginner,\" \"Intermediate,\" or \"Advanced\"", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Set Your Skill Level", message: "Press either \"Beginner,\" \"Intermediate,\" or \"Advanced\"", preferredStyle: .Alert)
         
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = ""
-        })
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            let textField = alert.textFields![0] as UITextField
-            
-            if let newSkillLevel = textField.text {
-                self.updateSkillLevel(newSkillLevel)
-            }
+        alert.addAction(UIAlertAction(title: "Beginner", style: .Default, handler: { (action) -> Void in
+            self.updateSkillLevel("Beginner")
         }))
+        alert.addAction(UIAlertAction(title: "Intermediate", style: .Default, handler: { (action) -> Void in
+            self.updateSkillLevel("Intermediate")
+        }))
+        alert.addAction(UIAlertAction(title: "Advanced", style: .Default, handler: { (action) -> Void in
+            self.updateSkillLevel("Advanced")
+        }))
+        
         self.presentViewController(alert, animated: true, completion: nil)
+        alert.view.tintColor = UIColor.blackColor()
     }
     
     @IBAction func modifyKnownList(sender: UIButton) {

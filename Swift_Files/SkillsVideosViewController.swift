@@ -30,7 +30,7 @@ class SkillsVideosViewController: UIViewController {
         setLinksAccordingToSkillLevel(player.skillLevel)
         setVideos()
         
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
     }
     override func viewDidAppear(animated: Bool) {
         setLinksAccordingToSkillLevel(player.skillLevel)

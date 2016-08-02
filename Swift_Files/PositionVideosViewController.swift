@@ -47,14 +47,14 @@ class PositionVideosViewController: UIViewController {
         let position = player.currentPosition
         selectVideos(position)
         setVideos()
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
     }
     
     override func viewDidAppear(animated: Bool) {
         let position = player.currentPosition
         selectVideos(position)
         setVideos()
-        self.view.addBackground(imageName)
+        self.view.addBackground(imageName, imageView: imageView)
     }
     
     func setVideos() {

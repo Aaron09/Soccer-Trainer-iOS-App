@@ -18,7 +18,6 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var positionPicker: UIPickerView!
     @IBOutlet weak var positionDescriptionTV: UITextView!
     private let amountOfPickerColumns = 1
-    private var tempPosition = ""
     private let ronaldoImage = "ronaldoPositionsImage"
     private let neuerImage = "neuerPositionsImage"
     private let pogbaImage = "pogbaPositionsImage"
@@ -68,17 +67,22 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let position = player.defaults.stringForKey(player.currentPositionKey) {
+            player.currentPosition = position
+            currentPositionLabel.text = positionBase + player.currentPosition
+        }
+        
         self.positionPicker.dataSource = self;
         self.positionPicker.delegate = self;
         setPositionAndDescription()
         self.positionPicker.selectRow(positionRows[player.currentPosition]!, inComponent: 0, animated: false)
         
-        self.view.addBackground(setBackgroundBasedOnPosition())
+        self.view.addBackground(setBackgroundBasedOnPosition(player.currentPosition), imageView: imageView)
     }
     
-    private func setBackgroundBasedOnPosition() -> String {
+    private func setBackgroundBasedOnPosition(position: String) -> String {
         var backgroundImageName = ""
-        if let playerPositionType = positionTypes[player.currentPosition] {
+        if let playerPositionType = positionTypes[position] {
             switch playerPositionType {
             case .OffensivePosition: backgroundImageName = "ronaldoPositionsImage"
             case .MidfieldPosition: backgroundImageName = "debruynePositionsImage"
@@ -121,14 +125,17 @@ class PositionsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
-        let tempPosition = positions[row]
-        currentDescription = positionDescriptions[tempPosition]!
-        player.currentPosition = tempPosition
+        let selectedPosition = positions[row]
+        currentDescription = positionDescriptions[selectedPosition]!
+        player.currentPosition = selectedPosition
         currentPositionLabel.text = positionBase + player.currentPosition
         positionDescriptionTV.text = currentDescription
-
+        
         imageView.removeFromSuperview()
-        self.view.addBackground(setBackgroundBasedOnPosition())
+        self.view.addBackground(setBackgroundBasedOnPosition(selectedPosition), imageView: imageView)
+        
+        player.defaults.setValue(player.currentPosition, forKey: player.currentPositionKey)
+        player.defaults.synchronize()
         
     }
     
