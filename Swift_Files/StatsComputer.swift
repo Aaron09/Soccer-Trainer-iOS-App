@@ -75,7 +75,7 @@ class StatsComputer {
         
         return percentageAsString
     }
-    func updateRatio(base: String ,numerator: Double, denominator: Double) -> String {
+    func updateRatio(base: String, numerator: Double, denominator: Double) -> String {
         return base + calculatePercentageFormattedAsString(numerator, total: denominator)
     }
     
