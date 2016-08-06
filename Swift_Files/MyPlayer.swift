@@ -30,6 +30,13 @@ class MyPlayer {
     var knownSkills: [String] = []
     var toLearnSkills: [String] = []
     var skillLevel = Juggler.TrickOrSkillLevels.Beginner
+    var goalCount = 0
+    var shotOnTargetCount = 0
+    var totalShotCount = 0
+    var assistCount = 0
+    var completePassCount = 0
+    var incompletePassCount = 0
+    
     
     let currentPositionKey = "currentPosition"
     let jugglingRecordKey = "jugglingRecord"
